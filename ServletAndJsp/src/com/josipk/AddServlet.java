@@ -4,29 +4,26 @@ import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class AddServlet extends HttpServlet {
 	
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		int i = Integer.parseInt(req.getParameter("num1"));
 		int j = Integer.parseInt(req.getParameter("num2"));
 		int k = i + j;
 		
-		PrintWriter out = resp.getWriter();
+		Cookie cookie = new Cookie("k", k + "");
+		resp.addCookie(cookie);
 		
-		out.println("result is: " + k);
+		resp.sendRedirect("sq");
 		
-		//To call another servlet we can use a Request Dispatcher or Redirect
-		// Session management
-		req.setAttribute("k", k);
-		
-		RequestDispatcher requestDispatcher = req.getRequestDispatcher("sq");
-		requestDispatcher.forward(req, resp);
 	}
 
 }
